@@ -1,0 +1,99 @@
+---
+title: "DATA 304/COMP312 - Group 2 Project"
+author: "Group 2"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    toc: yes
+    df_print: paged
+  rmarkdown::pdf_document:
+    toc: yes
+    number_sections: yes
+    keep_md: yes
+    fig_caption: yes
+mainfont: Times New Roman
+header-includes:
+- \usepackage[T1]{fontenc}
+- \renewcommand{\topfraction}{.85}
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+```{r results=FALSE, echo=FALSE}
+library(pander)
+```
+
+# Report 2 - Submit Collected Data
+
+## Group Members
+
+```{r, fig.cap="table of group 4 members", echo=FALSE}
+
+data <- data.frame(Names = c("Jacob French", "Jayden Hooper", "Reece Pacia", "Alif Nurrokhman", "Aston Robbins","James Boyle"),
+                   Emails = c("frenchjaco@vuw.ac.nz","hooperjayd@myvuw.ac.nz","paciareec@myvuw.ac.nz", "nurrokmuha@my.vuw.ac.nz","robbinasto@myvuw.ac.nz","boylejame1@myvuw.ac.nz"),
+                   ORCID = c('0009-0004-7268-3581', "0009-0004-2644-5216","0009-0001-4748-604X", "0009-0008-7814-9231", "0009-0005-2959-883X","0009-0002-1177-2922" ))
+pander(data)                  
+```
+
+## Second Meeting w/ Service Identification
+
+On the 19th of April we had 2 new members added to our group Jacob
+French and Alif Nurrokhman as their previous group had disbanded. We had
+a meeting with Jayden, Jacob and Alif. We further discussed the WCT
+idea, however we discovered that although we could access individual
+waiting and service times for the queue we had not been given access to
+the individual inter-arrival times. Jayden emailed his manager to
+inquire about this. Jacob and Alif also brought up that they had
+previously gained permission to observe the Louis Cafe queue in their
+previous group.
+
+We had another group meeting on the 22nd of April with all members of
+our group. In this meeting Jayden confirmed that unfortunately his
+manager could not give us access to the inter-arrival times. As we could
+no longer gather the correct data from WCT we decided against this idea.
+Instead we decided to gather data from the louis cafe.
+
+## Identifying Tools
+
+The tools we decided to use for our investigation were:
+
+-   Notebooks, pens, and laptops for recording and capturing data (one
+    per group member)
+-   Jupyter notebook to model the queues in Python (specifically using
+    the SimPy, NumPy, and Panda packages)
+-   Discord for communication purposes
+-   GitLab for creating a Git repository
+-   RMarkdown to write the report
+-   One person to track the queue, one to time the arrivals, and one to
+    time the service
+-   Online stopwatch in order to time multiple people at once
+-   Google sheets document with data set, to be later converted into CSV
+    as a machine-readable format
+
+## Louis Cafe Data
+
+```{r}
+cafe = read.csv("cafe Louis Data.csv")
+pander(head(cafe,10))
+```
+
+## Plots
+
+```{r,echo=FALSE}
+library(ggplot2) ;library(gridExtra);library(dplyr)
+
+a <- ggplot(cafe, aes(x=Inter.Arrival.Time)) + geom_histogram() + labs(x='Inter-Arrival Time (Seconds',y ="Count")
+
+b <- ggplot(cafe, aes(x=Waiting.Time)) + geom_histogram() + labs(x='Waiting Time (seconds)',y ="Count")
+
+c <- ggplot(cafe, aes(x=Service.Time)) + geom_histogram() + labs(x='Service Times (seconds)',y ="Count")
+
+grid.arrange(a,b,c,nrow = 2)
+```
